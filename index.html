@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Give Clean Water</title>
+  <style>
+    /* Reset default browser styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Set the font for the whole page */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #8BD1CB; /* Light blue background */
+      color: #002147;
+      min-height: 100vh;
+      font-size: 1rem;
+    }
+
+    /* Header styles */
+    header {
+      background-color: #8BD1CB;
+      border-bottom: 2px solid #002147;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: absolute;
+      width: 100%;
+      top: 0;
+      z-index: 10;
+    }
+
+    .logo img {
+      height: 40px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .nav-links a {
+      color: #002147;
+      font-weight: bold;
+      padding: 0.5rem 1rem;
+      text-decoration: none;
+    }
+
+    .nav-toggle {
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        background: #8BD1CB;
+        position: absolute;
+        top: 50px;
+        right: 0;
+        width: 150px;
+        border-radius: 4px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      }
+      nav.nav-open .nav-links {
+        display: flex;
+      }
+      .nav-toggle {
+        display: block;
+      }
+      .logo img {
+        height: 28px;
+      }
+    }
+
+    /* Headline at the top, indented to the left, white and big */
+    .white-headline {
+      color: white;
+      font-size: 3rem;
+      text-align: left;
+      margin: 2rem 0 0 2rem;
+      background: none;
+    }
+
+    /* Hero section styles */
+    .hero {
+      margin-left: 2rem;
+      margin-top: 1rem;
+      max-width: 400px;
+      padding: 1rem 0 2rem 0;
+      color: white;
+      background: none;
+    }
+
+    .hero p {
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn-primary {
+      background-color: #002147;
+      color: #fff;
+      padding: 0.75rem 1.25rem;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: bold;
+      margin-right: 1rem;
+      display: inline-block;
+    }
+
+    .btn-secondary {
+      background-color: #fff;
+      color: #002147;
+      padding: 0.75rem 1.25rem;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-block;
+    }
+
+    /* Container for the hero section */
+    .hero-section {
+      position: relative;      /* Allows absolute positioning inside */
+      width: 100%;             /* Full width */
+      max-width: 900px;        /* Optional: limit max width */
+      margin: 2rem auto;       /* Center the hero section on the page */
+    }
+
+    /* Hero image fills the container */
+    .hero-img {
+      width: 100%;             /* Image takes full width */
+      height: auto;            /* Keep image aspect ratio */
+      display: block;          /* Remove extra space below image */
+      border-radius: 8px;      /* Rounded corners for style */
+    }
+
+    /* Headline and small text at the bottom left */
+    .hero-text {
+      position: absolute;      /* Place text over the image */
+      left: 20px;              /* 20px from the left */
+      bottom: 20px;            /* 20px from the bottom */
+      color: white;            /* White text for contrast */
+      max-width: 50%;          /* Keep text from stretching too far */
+      text-align: left;        /* Align both headline and text to the left */
+    }
+
+    .hero-text h1 {
+      font-size: 1.8rem;       /* Headline size */
+      margin: 0 0 0.5rem 0;    /* Space below the headline */
+    }
+
+    .hero-text p {
+      font-size: 0.81rem;      /* Smaller text */
+      margin: 0;               /* No extra margin */
+    }
+
+    /* Buttons at the bottom right of the image */
+    .hero-buttons {
+      position: absolute;      /* Place buttons over the image */
+      right: 20px;             /* 20px from the right */
+      bottom: 20px;            /* 20px from the bottom */
+      display: flex;           /* Place buttons side by side */
+      gap: 1rem;               /* Space between buttons */
+    }
+
+    /* Main button style */
+    .btn-primary {
+      background-color: #002147;  /* Dark blue */
+      color: #fff;                /* White text */
+      padding: 0.6rem 1rem;       /* Button size */
+      border-radius: 4px;         /* Rounded corners */
+      text-decoration: none;      /* No underline */
+      font-weight: bold;          /* Bold text */
+      font-size: 0.8rem;          /* Button text size */
+    }
+
+    /* Secondary button style */
+    .btn-secondary {
+      background-color: #8BD1CB;  /* Light blue */
+      color: #002147;             /* Dark blue text */
+      padding: 0.6rem 1rem;       /* Button size */
+      border-radius: 4px;         /* Rounded corners */
+      text-decoration: none;      /* No underline */
+      font-weight: bold;          /* Bold text */
+      font-size: 0.8rem;          /* Button text size */
+    }
+
+    /* Responsive: stack everything on small screens */
+    @media (max-width: 700px) {
+      .hero-section {
+        max-width: 100%;
+      }
+      .hero-text, .hero-buttons {
+        position: static;         /* Remove absolute positioning */
+        display: block;
+        text-align: center;
+        margin: 1rem 0 0 0;
+        background: none;
+        padding: 0.5rem 0;
+        max-width: 100%;
+      }
+      .hero-text h1, .hero-text p {
+        text-align: center;
+        margin-left: 0;
+      }
+      .hero-buttons {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: center;
+      }
+    }
+
+    /* Footer styles */
+    .page-footer {
+      background: rgba(139, 209, 203, 0.5); /* Light blue with 50% transparency */
+      text-align: center;
+      padding: 1.5rem 1rem;
+      margin-top: 2rem;
+    }
+
+    .page-footer h2 {
+      color: #002147;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .donate-btn {
+      background-color: #002147;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-block;
+    }
+
+    .donate-btn:hover {
+      background-color: #00172e;
+    }
+
+    /* Simple hero section with smaller buttons */
+
+    .hero-section {
+      
+    }
+
+    .hero-section h1 {
+      color: #ffffff;                /* Dark blue headline */
+      font-size: 1.5rem;             /* Headline size */
+      margin-bottom: 1rem;           /* Space below headline */
+    }
+
+    .hero-section p {
+      color: #ffffff;                /* Dark blue text */
+      font-size: 1rem;               /* Paragraph size */
+      margin-bottom: 1.5rem;         /* Space below text */
+    }
+
+    /* Smaller main button */
+    .btn-primary {
+      background-color: #002147;     /* Dark blue background */
+      color: #fff;                   /* White text */
+      padding: 0.4rem 0.8rem;        /* Smaller padding */
+      border-radius: 4px;            /* Rounded corners */
+      text-decoration: none;         /* No underline */
+      font-weight: bold;             /* Bold text */
+      font-size: 0.85rem;            /* Smaller font */
+      margin-right: 0.5rem;          /* Space between buttons */
+      display: inline-block;         /* Make the button fit its content */
+    }
+
+    /* Smaller secondary button */
+    .btn-secondary {
+      background-color: #fff;        /* White background */
+      color: #002147;                /* Dark blue text */
+      padding: 0.4rem 0.8rem;        /* Smaller padding */
+      border-radius: 4px;            /* Rounded corners */
+      text-decoration: none;         /* No underline */
+      font-weight: bold;             /* Bold text */
+      font-size: 0.85rem;            /* Smaller font */
+      display: inline-block;         /* Make the button fit its content */
+      border: 1px solid #002147;     /* Simple border */
+    }
+
+    /* Hero section with background image */
+    .hero-bg {
+      width: 100%; /* Full width */
+      min-height: 350px; /* Height of the hero section */
+      background: rgba(0, 33, 71, 0.5); /* Semi-transparent dark background for readability */
+      background-image: url('img/Hero.jpg'); /* Background image */
+      background-size: cover; /* Cover the whole area */
+      background-position: center; /* Center the image */
+      display: flex; /* Use flex to center content vertically */
+      align-items: center; /* Center content vertically */
+      justify-content: center; /* Center content horizontally */
+      padding: 2rem 1rem; /* Space inside the hero section */
+    }
+
+    /* Content inside the hero section */
+    .hero-content {
+      background: rgba(0, 33, 71, 0.5); /* Semi-transparent dark background for readability */
+      padding: 1.5rem;
+      border-radius: 8px;
+      text-align: center;
+      color: white;
+      max-width: 500px;
+      width: 100%;
+    }
+
+    .hero-content h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero-content p {
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Main button style */
+    .btn-primary {
+      background-color: #002147;  /* Dark blue */
+      color: #fff;                /* White text */
+      padding: 0.6rem 1.2rem;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: bold;
+      margin-right: 0.5rem;
+      font-size: 0.95rem;
+      display: inline-block;
+    }
+
+    /* Secondary button style */
+    .btn-secondary {
+      background-color: #8BD1CB;  /* Light blue */
+      color: #002147;             /* Dark blue text */
+      padding: 0.6rem 1.2rem;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 0.95rem;
+      display: inline-block;
+    }
+
+    /* Beginner-friendly hero section with stacked buttons */
+
+    .hero-section {
+
+    }
+
+    .hero-section h1 {
+      color: #ffffff;                /* Dark blue headline */
+      font-size: 1.5rem;             /* Headline size */
+      margin-bottom: 1rem;           /* Space below headline */
+    }
+
+    .hero-section p {
+      color: #ffffff;                /* Dark blue text */
+      font-size: 1rem;               /* Paragraph size */
+      margin-bottom: 1.5rem;         /* Space below text */
+    }
+
+    /* Button group for stacking buttons */
+    .button-group {
+      display: flex;                 /* Use flex to stack buttons */
+      flex-direction: column;        /* Stack buttons vertically */
+      align-items: center;           /* Center buttons horizontally */
+      gap: 0.75rem;                  /* Space between buttons */
+    }
+
+    /* Main button style */
+    .btn-primary {
+      background-color: #002147;     /* Dark blue background */
+      color: #fff;                   /* White text */
+      padding: 0.6rem 1.2rem;        /* Button size */
+      border-radius: 4px;            /* Rounded corners */
+      text-decoration: none;         /* No underline */
+      font-weight: bold;             /* Bold text */
+      font-size: 1rem;               /* Button text size */
+      display: inline-block;         /* Make the button fit its content */
+    }
+
+    /* Secondary button style */
+    .btn-secondary {
+      background-color: #fff;        /* White background */
+      color: #002147;                /* Dark blue text */
+      padding: 0.6rem 1.2rem;        /* Button size */
+      border-radius: 4px;            /* Rounded corners */
+      text-decoration: none;         /* No underline */
+      font-weight: bold;             /* Bold text */
+      font-size: 1rem;               /* Button text size */
+      display: inline-block;         /* Make the button fit its content */
+      border: 1px solid #002147;     /* Simple border */
+    }
+
+    /* Slideshow and Our Story side by side */
+    .side-by-side {
+      display: flex;           /* Place children in a row */
+      margin: 2rem 0;          /* Space above and below */
+    }
+
+    .slideshow {
+      width: 50%;
+      background-color: #8BD1CB;
+      padding: 1rem;
+      box-sizing: border-box;
+      min-height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide {
+      display: none;
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+    .slide.active {
+      display: block;
+    }
+
+    .our-story {
+      width: 50%;
+      background-color: #8BD1CB;
+      color: #002147;
+      padding: 1rem 2rem;
+      box-sizing: border-box;
+      text-align: left;
+      font-size: 1rem;
+    }
+
+    .our-story h2 {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      color: #002147;
+    }
+
+    .our-story p {
+      font-size: 1rem;
+      margin: 0;
+      color: #002147;
+    }
+
+    /* Stack on small screens */
+    @media (max-width: 700px) {
+      .side-by-side {
+        flex-direction: column;
+      }
+      .slideshow, .our-story {
+        width: 100%;
+        min-height: auto;
+        padding: 1rem;
+      }
+      .hero-content {
+        max-width: 100%;
+        padding: 1rem;
+      }
+      .hero-bg {
+        min-height: 250px;
+        padding: 1rem 0.5rem;
+      }
+    }
+
+    /* Hero section with a white background */
+    .hero-section {
+     
+    }
+
+    /* Headline and text at the bottom left */
+    .hero-text {
+      color: #ffffff;                 /* Dark blue text */
+      max-width: 60%;                 /* Limit width for readability */
+      text-align: left;               /* Align text to the left */
+      margin-bottom: 2rem;            /* Space below the text */
+    }
+
+    .hero-text h1 {
+      font-size: 1.8rem;              /* Headline size */
+      margin: 0 0 0.5rem 0;           /* Space below the headline */
+    }
+
+    .hero-text p {
+      font-size: 0.81rem;             /* Smaller text */
+      margin: 0;                      /* No extra margin */
+    }
+
+    /* Buttons at the bottom right */
+    .hero-buttons {
+      position: absolute;             /* Place buttons over the section */
+      right: 20px;                    /* 20px from the right */
+      bottom: 20px;                   /* 20px from the bottom */
+      display: flex;                  /* Place buttons side by side */
+      gap: 1rem;                      /* Space between buttons */
+    }
+
+    /* Main button style - smaller */
+    .btn-primary {
+      background-color: #002147;      /* Dark blue */
+      color: #fff;                    /* White text */
+      padding: 0.6rem 1rem;           /* Smaller button */
+      border-radius: 4px;             /* Rounded corners */
+      text-decoration: none;          /* No underline */
+      font-weight: bold;              /* Bold text */
+      font-size: 0.8rem;              /* Smaller font */
+    }
+
+    /* Secondary button style - smaller */
+    .btn-secondary {
+      background-color: #8BD1CB;      /* Light blue */
+      color: #002147;                 /* Dark blue text */
+      padding: 0.6rem 1rem;           /* Smaller button */
+      border-radius: 4px;             /* Rounded corners */
+      text-decoration: none;          /* No underline */
+      font-weight: bold;              /* Bold text */
+      font-size: 0.8rem;              /* Smaller font */
+    }
+
+    /* Beginner-friendly hero section with the original Hero.jpg image and simple layout */
+
+    .hero-section {
+      /* No additional styles needed, using existing ones */
+    }
+
+    /* Make the Hero.jpg image large and responsive */
+    .hero-img {
+      width: 100%;             /* Image takes full width of the container */
+      height: 400px;           /* Make the image tall */
+      object-fit: cover;       /* Cover the area without stretching */
+      display: block;          /* Remove extra space below image */
+      border-radius: 8px;      /* Rounded corners for style */
+    }
+
+    /* Text and buttons on top of the image */
+    .hero-text {
+      position: absolute;      /* Place text over the image */
+      left: 30px;              /* Space from the left */
+      bottom: 30px;            /* Space from the bottom */
+      color: white;            /* White text for contrast */
+      /* Add a simple background for readability */
+      background: rgba(0, 33, 71, 0.5); /* Semi-transparent dark blue */
+      padding: 1rem;
+      border-radius: 8px;
+      max-width: 80%;          /* Keep text from stretching too far */
+      text-align: left;
+    }
+
+    .hero-text h1 {
+      font-size: 2rem;         /* Large headline */
+      margin: 0 0 0.5rem 0;    /* Space below the headline */
+    }
+
+    .hero-text p {
+      font-size: 1rem;         /* Normal text size */
+      margin: 0 0 1rem 0;      /* Space below the text */
+    }
+
+    /* Button styles */
+    .btn-primary {
+      background-color: #002147;  /* Dark blue */
+      color: #fff;                /* White text */
+      padding: 0.6rem 1.2rem;     /* Button size */
+      border-radius: 4px;         /* Rounded corners */
+      text-decoration: none;      /* No underline */
+      font-weight: bold;          /* Bold text */
+      margin-right: 0.5rem;       /* Space between buttons */
+      font-size: 1rem;            /* Button text size */
+      display: inline-block;      /* Make the button fit its content */
+    }
+
+    .btn-secondary {
+      background-color: #8BD1CB;  /* Light blue */
+      color: #002147;             /* Dark blue text */
+      padding: 0.6rem 1.2rem;     /* Button size */
+      border-radius: 4px;         /* Rounded corners */
+      text-decoration: none;      /* No underline */
+      font-weight: bold;          /* Bold text */
+      font-size: 1rem;            /* Button text size */
+      display: inline-block;      /* Make the button fit its content */
+    }
+
+    /* Responsive: stack text and buttons below the image on small screens */
+    @media (max-width: 700px) {
+      .hero-section {
+        max-width: 100%;
+      }
+      .hero-img {
+        height: 220px;           /* Make the image shorter on small screens */
+      }
+      .hero-text {
+        position: static;        /* Remove absolute positioning */
+        
+        color: white;
+        margin-top: -10px;       /* Slightly overlap the image */
+        max-width: 100%;
+        border-radius: 0 0 8px 8px;
+      }
+      .btn-primary, .btn-secondary {
+        display: block;
+        width: 100%;
+        margin: 0.5rem 0 0 0;
+        text-align: center;
+      }
+    }
+
+    /* Hero section with NO overlay behind the headline and text */
+
+    .hero-section {
+      /* No additional styles needed, using existing ones */
+    }
+
+    /* Hero image fills the container */
+    .hero-img {
+      width: 100%;             /* Image takes full width */
+      height: auto;            /* Keep image aspect ratio */
+      display: block;          /* Remove extra space below image */
+      border-radius: 8px;      /* Rounded corners for style */
+    }
+
+    /* Headline and text at the bottom left, no overlay background */
+    .hero-text {
+      position: absolute;      /* Place text over the image */
+      left: 20px;              /* 20px from the left */
+      bottom: 20px;            /* 20px from the bottom */
+      color: white;            /* White text for contrast */
+      max-width: 50%;          /* Keep text from stretching too far */
+      text-align: left;        /* Align both headline and text to the left */
+      /* No background or overlay here */
+    }
+
+    .hero-text h1 {
+      font-size: 1.8rem;       /* Headline size */
+      margin: 0 0 0.5rem 0;    /* Space below the headline */
+    }
+
+    .hero-text p {
+      font-size: 0.81rem;      /* Smaller text */
+      margin: 0;               /* No extra margin */
+    }
+
+    /* Buttons at the bottom right of the image */
+    .hero-buttons {
+      position: absolute;      /* Place buttons over the image */
+      right: 20px;             /* 20px from the right */
+      bottom: 20px;            /* 20px from the bottom */
+      display: flex;           /* Place buttons side by side */
+      gap: 1rem;               /* Space between buttons */
+    }
+
+    /* Main button style */
+    .btn-primary {
+      background-color: #002147;  /* Dark blue */
+      color: #fff;                /* White text */
+      padding: 0.6rem 1rem;       /* Button size */
+      border-radius: 4px;         /* Rounded corners */
+      text-decoration: none;      /* No underline */
+      font-weight: bold;          /* Bold text */
+      font-size: 0.8rem;          /* Button text size */
+    }
+
+    /* Secondary button style */
+    .btn-secondary {
+      background-color: #8BD1CB;  /* Light blue */
+      color: #002147;             /* Dark blue text */
+      padding: 0.6rem 1rem;       /* Button size */
+      border-radius: 4px;         /* Rounded corners */
+      text-decoration: none;      /* No underline */
+      font-weight: bold;          /* Bold text */
+      font-size: 0.8rem;          /* Button text size */
+    }
+
+    /* Responsive: stack text and buttons below the image on small screens */
+    @media (max-width: 700px) {
+      .hero-section {
+        max-width: 100%;
+      }
+      .hero-text, .hero-buttons {
+        position: static;         /* Remove absolute positioning */
+        display: block;
+        text-align: center;
+        margin: 1rem 0 0 0;
+        background: none;
+        padding: 0.5rem 0;
+        max-width: 100%;
+      }
+      .hero-text h1, .hero-text p {
+        text-align: center;
+        margin-left: 0;
+      }
+      .hero-buttons {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background image for the whole page -->
+  <img src="img/Hero.jpg" alt="Background Image" class="full-bg" style="position:fixed;top:0;left:0;width:100vw;height:100vh;object-fit:cover;z-index:-1;">
+
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <img src="img/cw_logo2.png" alt="Charity Water Logo">
+    </div>
+    <nav>
+      <button class="nav-toggle" onclick="document.querySelector('nav').classList.toggle('nav-open')">
+        ☰
+      </button>
+      <div class="nav-links">
+        <a href="#">Home</a>
+        <a href="#">Our Story</a>
+        <a href="#">Donate</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Beginner-friendly hero section with the original Hero.jpg image and simple layout -->
+
+  <div class="hero-section">
+    <!-- Hero image (no background color behind it) -->
+    <img src="img/Hero.jpg" alt="Clean Water" class="hero-img">
+
+    <!-- Headline and small text at the bottom left of the image -->
+    <div class="hero-text">
+      <h1>Give Clean Water. See the Change You Make</h1>
+      <p>
+        Make a real difference—fast. Support clean water projects with just a few taps, track your impact every step of the way, and be part of a transparent, purpose-driven movement shaping a better world.
+      </p>
+    </div>
+
+    <!-- Buttons at the bottom right of the image -->
+    <div class="hero-buttons">
+      <a href="#" class="btn-primary">Be Someone's Hero Today!</a>
+      <a href="#" class="btn-secondary">See your impact</a>
+    </div>
+  </div>
+
+  <!-- The rest of the page starts here -->
+  <div class="side-by-side">
+    <!-- Slideshow on the left -->
+    <div class="slideshow">
+      <!-- Images for the slideshow -->
+      <img src="img/screenshot1.jpg" alt="Slide 1" class="slide active">
+      <img src="img/screenshot2.jpg" alt="Slide 2" class="slide">
+      <img src="img/screenshot3.jpg" alt="Slide 3" class="slide">
+    </div>
+
+    <!-- Our Story section on the right -->
+    <section class="our-story">
+      <h2>Our Story</h2>
+      <p>
+       We believe every person deserves clean and safe drinking water. Our mission is to bring sustainable water solutions to communities around the world—one project at a time. <br><br>  With your help, we build wells and water systems so children can spend more time in school and families can stay healthy. Every child and family deserves access to clean water, and we are committed to making that a reality<br><br> Together, we can give hope, health and brighter future to children and families around the world.
+
+      </p>
+    </section>
+  </div>
+
+  <!-- Footer -->
+  <div class="page-footer">
+    <h2>Ready to Make a Difference?</h2>
+    <a href="#" class="donate-btn">Donate Now</a>
+  </div>
+
+  <script>
+    // Slideshow functionality
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+      });
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % totalSlides;
+      showSlide(currentSlide);
+    }
+
+    setInterval(nextSlide, 5000); // Change slide every 5 seconds
+  </script>
+</body>
+</html>
